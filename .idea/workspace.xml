@@ -6,6 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="a8b3bdb6-ee83-4b3a-bcb7-a46bea294bfa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PresentationTier/LogIn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PresentationTier/LogIn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/PresentationTier/SignUp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/PresentationTier/SignUp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +40,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/bleon/IdeaProjects/RateUniversityApplication/Images",
+    "last_opened_file_path": "C:/Users/User/Desktop/ProjektSE",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",

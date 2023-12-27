@@ -13,20 +13,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class SignUp extends JFrame {
+public class SignUp extends JFrame implements ActionListener{
 
-    private JLabel email;
-    private JTextField emailField;
-    private JButton jButton1;
-    private JPanel left;
-    private JLabel name;
-    private JTextField nameField;
-    private JLabel password;
+    private JLabel email,name,password,signUp,uptLogo;
+    private JTextField emailField,nameField;
+    private JButton logInButton,signUpButton;
+    private JPanel left,right;
     private JPasswordField passwordField;
-    private JPanel right;
-    private JLabel signUp;
-    private JButton signUpButton;
-    private JLabel uptLogo;
     public SignUp() {
         initComponents();
     }
@@ -44,7 +37,7 @@ public class SignUp extends JFrame {
         password = new JLabel();
         passwordField = new JPasswordField();
         signUpButton = new JButton();
-        jButton1 = new JButton();
+        logInButton = new JButton();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,21 +85,12 @@ public class SignUp extends JFrame {
         signUpButton.setFont(new Font("Segoe UI", 0, 14));
         signUpButton.setForeground(new Color(255, 255, 255));
         signUpButton.setText("Sign Up");
-        signUpButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                signUpButtonActionPerformed(evt);
-            }
-        });
-
-        jButton1.setBackground(new Color(0, 102, 102));
-        jButton1.setFont(new Font("Segoe UI", 0, 14));
-        jButton1.setForeground(new Color(255, 255, 255));
-        jButton1.setText("Log In");
-        jButton1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        signUpButton.addActionListener(this);
+        logInButton.setBackground(new Color(0, 102, 102));
+        logInButton.setFont(new Font("Segoe UI", 0, 14));
+        logInButton.setForeground(new Color(255, 255, 255));
+        logInButton.setText("Log In");
+        logInButton.addActionListener(this);
 
         GroupLayout rightLayout = new GroupLayout(right);
         right.setLayout(rightLayout);
@@ -130,7 +114,7 @@ public class SignUp extends JFrame {
                             .addGroup(rightLayout.createSequentialGroup()
                                 .addComponent(signUpButton,GroupLayout.PREFERRED_SIZE, 85,GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED,GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jButton1,GroupLayout.PREFERRED_SIZE, 84,GroupLayout.PREFERRED_SIZE)
+                                .addComponent(logInButton,GroupLayout.PREFERRED_SIZE, 84,GroupLayout.PREFERRED_SIZE)
                                 .addGap(20, 20, 20)))))
                 .addContainerGap(45, Short.MAX_VALUE))
         );
@@ -154,7 +138,7 @@ public class SignUp extends JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(rightLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(signUpButton,GroupLayout.PREFERRED_SIZE, 35,GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1,GroupLayout.PREFERRED_SIZE, 35,GroupLayout.PREFERRED_SIZE))
+                    .addComponent(logInButton,GroupLayout.PREFERRED_SIZE, 35,GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(86, Short.MAX_VALUE))
             .addComponent(left,GroupLayout.DEFAULT_SIZE,GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -172,18 +156,19 @@ public class SignUp extends JFrame {
 
         pack();
     }
+    public void actionPerformed(ActionEvent event){}
 
 
-    private void signUpButtonActionPerformed(ActionEvent evt) {
-    
-    }
-
-    private void jButton1ActionPerformed(ActionEvent evt) {
-        LogIn LoginFrame =new LogIn();
-        LoginFrame.setVisible(true);
-        LoginFrame.pack();
-        LoginFrame.setLocationRelativeTo(null);
-    }
- 
+//    private void signUpButtonActionPerformed(ActionEvent evt) {
+//
+//    }
+//
+//    private void jButton1ActionPerformed(ActionEvent evt) {
+//        LogIn LoginFrame =new LogIn();
+//        LoginFrame.setVisible(true);
+//        LoginFrame.pack();
+//        LoginFrame.setLocationRelativeTo(null);
+//    }
+//
 }
 

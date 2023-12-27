@@ -4,28 +4,14 @@ package PresentationTier;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import static javax.swing.JOptionPane.showMessageDialog;
-import java.sql.ResultSet;
 import javax.swing.*;
-public class LogIn extends JFrame {
-    private JLabel email;
+public class LogIn extends JFrame implements ActionListener {
+    private JLabel email,logIn,password,signUpField,uptField,uptLogo;
     private JTextField emailField;
-    private JPanel jPanel1;
-    private JPanel left;
-    private JLabel logIn;
-    private JButton logInButton;
-    private JLabel password;
+    private JPanel jPanel1,left,right;
+    private JButton logInButton,signUpButton;
     private JPasswordField passwordField;
-    private JPanel right;
-    private JButton signUpButton;
-    private JLabel signUpField;
-    private JLabel uptField;
-    private JLabel uptLogo;
     public LogIn() {
         initComponents();
     }
@@ -113,23 +99,13 @@ public class LogIn extends JFrame {
         logInButton.setFont(new Font("Segoe UI", 0, 14)); 
         logInButton.setForeground(new Color(255, 255, 255));
         logInButton.setText("Login");
-        logInButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                logInButtonActionPerformed(evt);
-            }
-        });
-
+        logInButton.addActionListener(this);
         signUpField.setFont(new Font("Segoe UI", 0, 14)); 
         signUpField.setText("I don't have an account");
         signUpButton.setFont(new Font("Segoe UI", 0, 14)); 
         signUpButton.setForeground(new Color(204, 0, 0));
         signUpButton.setText("Sign Up");
-        signUpButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent evt) {
-                signUpButtonActionPerformed(evt);
-            }
-        });
-
+        signUpButton.addActionListener(this);
         GroupLayout rightLayout = new GroupLayout(right);
         right.setLayout(rightLayout);
         rightLayout.setHorizontalGroup(
@@ -201,21 +177,8 @@ public class LogIn extends JFrame {
         pack();
     }
 
-  
 
-    private void logInButtonActionPerformed(ActionEvent evt) {
-
-    }
-
-    private void signUpButtonActionPerformed(ActionEvent evt) {
-        SignUp SignUpFrame =new SignUp();
-        SignUpFrame.setVisible(true);
-        SignUpFrame.pack();
-        SignUpFrame.setLocationRelativeTo(null); 
-        this.dispose();
-    }
-
-   
+    public void actionPerformed(ActionEvent event) {}
 
 
 }
