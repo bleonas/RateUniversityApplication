@@ -1,5 +1,9 @@
 package PresentationTier;
 
+import LogicLayer.ProcessData;
+import LogicLayer.UserAuthentication;
+import Resources.Student;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -33,12 +37,10 @@ public class Profile extends JFrame {
     private JLabel profileLogo;
     private JPanel profilePanel;
     private JPanel sideMenu;
-
-    public Profile() {
-        initComponents();
-    }
-
-    private void initComponents() {
+    private Student loggedStudent;
+    private ProcessData processor = new UserAuthentication();
+    public Profile(Student student){
+        loggedStudent = student;
 
         jLayeredPane1 = new JLayeredPane();
         panel = new JPanel();

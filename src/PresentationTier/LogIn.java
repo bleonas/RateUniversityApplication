@@ -1,6 +1,10 @@
 
 package PresentationTier;
 
+import LogicLayer.ProcessData;
+import LogicLayer.UserAuthentication;
+import Resources.Student;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,12 +16,9 @@ public class LogIn extends JFrame implements ActionListener {
     private JPanel jPanel1,left,right;
     private JButton logInButton,signUpButton;
     private JPasswordField passwordField;
+    ProcessData processor = new UserAuthentication();
+
     public LogIn() {
-        initComponents();
-    }
-
-    private void initComponents() {
-
         jPanel1 = new JPanel();
         left = new JPanel();
         uptLogo = new JLabel();
@@ -178,7 +179,63 @@ public class LogIn extends JFrame implements ActionListener {
     }
 
 
-    public void actionPerformed(ActionEvent event) {}
+    public void actionPerformed(ActionEvent event) {
+
+        if(event.getSource()==logInButton){
+            String email = emailField.getText();
+            char[] password = passwordField.getPassword();
+
+            if ("".equals(email)) {
+                JOptionPane.showMessageDialog(null, "Email is required!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if (!(email.contains("@"))) {
+                JOptionPane.showMessageDialog(null, "Email must contain '@'!", "Error", JOptionPane.ERROR_MESSAGE);
+            } else if ("".equals(password)) {
+                JOptionPane.showMessageDialog(null, "Password is required!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+
+                Student student = processor.getStudent(email);
+                if(student==null){
+                    JOptionPane.showMessageDialog(null,"This user has not been registered into the system!","Error",JOptionPane.ERROR_MESSAGE);
+                }
+                int checked = processor.authenticateUser(student);
+                if(checked==103) {
+                    JOptionPane.showMessageDialog(null, "Log in was successful!", "Log In status", JOptionPane.INFORMATION_MESSAGE);
+                    this.dispose();
+                    Home home = new Home(student);
+                    home.setVisible(true);
+                    home.pack();
+                    home.setLocationRelativeTo(null);
+
+                }
+                else if(checked==100){
+                    JOptionPane.showMessageDialog(null, "Email must contain a domain, recipient name and top level domain.\nOnly " +
+                            "uppercase and lowercase letters (A-Z, a-z)\n" +
+                            "Digits from 0 to 9\n" +
+                            "Special characters such as ! # $ % & ' * + - / = ? ^ _ ` { | are allowed!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                else {
+                    JOptionPane.showMessageDialog(null,"The password must contain at least 8 characters and at " +
+                            "most 20 characters.\n" +
+                            "at least one digit," +
+                            "one upper case alphabet," +
+                            "one lower case alphabet,\n" +
+                            " and one special character which includes !@#$%&*()-+=^.\n" +
+                            " It must not contain any white space.");
+                }
+            }
+        }
+
+        if(event.getSource()== signUpButton){
+            this.dispose();
+            SignUp signUpPage = new SignUp();
+            signUpPage.setVisible(true);
+            signUpPage.pack();
+            signUpPage.setLocationRelativeTo(null);
+        }
+
+    }
 
 
 }
