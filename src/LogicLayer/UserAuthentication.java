@@ -1,0 +1,70 @@
+package LogicLayer;
+
+import DataLayer.DataReader;
+import DataLayer.DataSaver;
+import DataLayer.Reader;
+import DataLayer.Saver;
+import Resources.Course;
+import Resources.Student;
+
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+public class UserAuthentication implements ProcessData {
+    DataReader checker = new Reader();
+    DataSaver saver = new Saver();
+    public int authenticateUser(Student student) {
+        if(!controlEmail(student.getEmail()))
+            return 100;
+        else if(!controlPassword(student.getPassword()))
+            return 102;
+        else
+            return 103;
+    }
+
+    public boolean isRegistered(Student student){
+        return  checker.searchForStudent(student);
+    }
+
+    private boolean controlEmail(String email){
+        Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher emailMatcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+        return emailMatcher.matches();
+    }
+
+    private boolean controlPassword(String password){
+        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
+        Pattern passwordPattern = Pattern.compile(passwordRegex);
+        Matcher passwordMatcher= passwordPattern.matcher(password);
+        return passwordMatcher.matches();
+    }
+
+    public void registerStudent(Student student){
+        saver.addStudent(student);
+    }
+
+    public Student getStudent(String email){
+        return checker.getStudent(email);
+    }
+
+    public ArrayList<Course> getAvailableCoursesForStudent(Student student){
+
+        ArrayList<Course> registeredCourses = (ArrayList<Course>) checker.getCoursesForStudent(student);
+        ArrayList<Course> allCourses = (ArrayList<Course>) checker.getAllCourses();
+        ArrayList<Course> availableCourses= new ArrayList<>();
+        for(int i=0;i<allCourses.size();i++){
+            int j=0;
+            for(;j<registeredCourses.size();j++){
+                if(allCourses.get(i).getCourseName().equals(registeredCourses.get(j).getCourseName()))
+                    break;
+            }
+            if(j==registeredCourses.size()){
+                availableCourses.add(allCourses.get(i));
+            }
+        }
+
+        return availableCourses;
+    }
+
+}
