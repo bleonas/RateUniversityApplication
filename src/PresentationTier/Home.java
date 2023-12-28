@@ -1,5 +1,7 @@
 package PresentationTier;
 
+import Resources.Student;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -29,12 +31,8 @@ public class Home extends JFrame {
     private JLabel profileLogo;
     private JPanel profilePanel;
     private JPanel sideMenu;
-
-    public Home() {
-        initComponents();
-    }
-
-    private void initComponents() {
+    private Student loggedStudent;
+    public Home(Student student) {
         panel = new JPanel();
         sideMenu = new JPanel();
         logo = new JLabel();
@@ -373,9 +371,14 @@ public class Home extends JFrame {
     }
 
     private void homePanelMouseClicked(MouseEvent evt) {
+        Profile profileFrame = new Profile(loggedStudent);
+        profileFrame.setVisible(true);
+        profileFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
     private void profilePanelMouseClicked(MouseEvent evt) {
+
     }
 
     private void myCoursePanelMouseClicked(MouseEvent evt) {
@@ -385,6 +388,11 @@ public class Home extends JFrame {
     }
 
     private void logOutPanelMouseClicked(MouseEvent evt) {
+        LogIn LoginFrame =new LogIn();
+        LoginFrame.setVisible(true);
+        LoginFrame.pack();
+        LoginFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
 

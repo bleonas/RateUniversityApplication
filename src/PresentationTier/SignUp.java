@@ -1,5 +1,9 @@
 
 package PresentationTier;
+import LogicLayer.ProcessData;
+import LogicLayer.UserAuthentication;
+import Resources.Student;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -12,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class SignUp extends JFrame implements ActionListener{
 
@@ -20,11 +25,8 @@ public class SignUp extends JFrame implements ActionListener{
     private JButton logInButton,signUpButton;
     private JPanel left,right;
     private JPasswordField passwordField;
+    ProcessData processor = new UserAuthentication();
     public SignUp() {
-        initComponents();
-    }
-
-    private void initComponents() {
 
         right = new JPanel();
         left = new JPanel();
@@ -156,19 +158,65 @@ public class SignUp extends JFrame implements ActionListener{
 
         pack();
     }
-    public void actionPerformed(ActionEvent event){}
+    public void actionPerformed(ActionEvent event){
+        String fullName = nameField.getText();
+        String email = emailField.getText();
+        String password = passwordField.getText();
 
+        if(event.getSource()==signUpButton){
 
-//    private void signUpButtonActionPerformed(ActionEvent evt) {
-//
-//    }
-//
-//    private void jButton1ActionPerformed(ActionEvent evt) {
-//        LogIn LoginFrame =new LogIn();
-//        LoginFrame.setVisible(true);
-//        LoginFrame.pack();
-//        LoginFrame.setLocationRelativeTo(null);
-//    }
-//
+            if(fullName=="" || email=="" || password==""){
+                JOptionPane.showMessageDialog(null,"Please fill in all the required fields!","Error",JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                Student student = new Student(fullName,email,password);
+                student.setCoursesJoined(new ArrayList<>());
+                int checked =processor.authenticateUser(student);
+
+                if(checked==103) {
+                    if(processor.isRegistered(student)){
+                        JOptionPane.showMessageDialog(null,"A user with this email is already registered!","Error",JOptionPane.ERROR_MESSAGE);
+                    }
+                    else{
+                        JOptionPane.showMessageDialog(null, "You registered successfully", "Registration status", JOptionPane.INFORMATION_MESSAGE);
+                        nameField.setText("");
+                        emailField.setText("");
+                        passwordField.setText("");
+
+                        processor.registerStudent(student);
+
+                        LogIn LoginPage =new LogIn();
+                        LoginPage.setVisible(true);
+                        LoginPage.pack();
+                        LoginPage.setLocationRelativeTo(null);
+                    }
+                }
+                else if(checked==100){
+                    JOptionPane.showMessageDialog(null, "Email must contain a domain, recipient name and top level domain.\nOnly " +
+                            "uppercase and lowercase letters (A-Z, a-z)\n" +
+                            "Digits from 0 to 9\n" +
+                            "Special characters such as ! # $ % & ' * + - / = ? ^ _ ` { | are allowed!", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+
+                else {
+                    JOptionPane.showMessageDialog(null,"The password must contain at least 8 characters and at " +
+                            "most 20 characters.\n" +
+                            "at least one digit," +
+                            "one upper case alphabet," +
+                            "one lower case alphabet,\n" +
+                            " and one special character which includes !@#$%&*()-+=^.\n" +
+                            " It must not contain any white space.");
+                }
+            }
+        }
+
+        if(event.getSource()==logInButton){
+            LogIn logInPage = new LogIn();
+            logInPage.setVisible(true);
+            logInPage.pack();
+            logInPage.setLocationRelativeTo(null);
+            this.dispose();
+        }
+    }
 }
 
