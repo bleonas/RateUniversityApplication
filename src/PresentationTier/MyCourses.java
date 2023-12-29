@@ -1,10 +1,13 @@
 
 package PresentationTier;
 
+import Resources.Course;
+import Resources.Student;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import Resources.Course;
+
 
 public class MyCourses extends JFrame {
     private JLabel availableCoursesLabel;
@@ -30,9 +33,10 @@ public class MyCourses extends JFrame {
     private JPanel sideMenu;
     private DefaultListModel<Course> courseListModel;
     private JList<Course> myCoursesList;
+    private Student loggedStudent;
     
-    public MyCourses() {
-
+    public MyCourses(Student student) {
+        loggedStudent = student;
         panel = new JPanel();
         sideMenu = new JPanel();
         logo = new JLabel();
@@ -360,22 +364,35 @@ public class MyCourses extends JFrame {
     }                     
 
     private void homePanelMouseClicked(MouseEvent evt) {
-
+        Home homeFrame = new Home(loggedStudent);
+        homeFrame.setVisible(true);
+        homeFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
     private void profilePanelMouseClicked(MouseEvent evt) {
-
+        Profile profileFrame = new Profile(loggedStudent);
+        profileFrame.setVisible(true);
+        profileFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
     private void myCoursePanelMouseClicked(MouseEvent evt) {
     }
 
     private void availableCoursesPanelMouseClicked(MouseEvent evt) {
-
+        AvailableCourses availableCoursesFrame = new AvailableCourses(loggedStudent);
+        availableCoursesFrame.setVisible(true);
+        availableCoursesFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
     private void logOutPanelMouseClicked(MouseEvent evt) {
-
+        LogIn LoginFrame =new LogIn();
+        LoginFrame.setVisible(true);
+        LoginFrame.pack();
+        LoginFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
     
 }

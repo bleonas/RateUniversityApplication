@@ -371,20 +371,27 @@ public class Home extends JFrame {
     }
 
     private void homePanelMouseClicked(MouseEvent evt) {
+    }
+
+    private void profilePanelMouseClicked(MouseEvent evt) {
         Profile profileFrame = new Profile(loggedStudent);
         profileFrame.setVisible(true);
         profileFrame.setLocationRelativeTo(null);
         this.setVisible(false);
     }
 
-    private void profilePanelMouseClicked(MouseEvent evt) {
-
-    }
-
     private void myCoursePanelMouseClicked(MouseEvent evt) {
+        MyCourses myCoursesFrame = new MyCourses(loggedStudent);
+        myCoursesFrame.setVisible(true);
+        myCoursesFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
     private void availableCoursesPanelMouseClicked(MouseEvent evt) {
+        AvailableCourses availableCoursesFrame = new AvailableCourses(loggedStudent);
+        availableCoursesFrame.setVisible(true);
+        availableCoursesFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
     private void logOutPanelMouseClicked(MouseEvent evt) {

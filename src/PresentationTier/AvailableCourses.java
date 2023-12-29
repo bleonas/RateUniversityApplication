@@ -1,10 +1,13 @@
 
 package PresentationTier;
 
+import Resources.Course;
+import Resources.Student;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import Resources.Course;
+
 
 public class AvailableCourses extends JFrame{
 
@@ -31,8 +34,9 @@ public class AvailableCourses extends JFrame{
     private JPanel sideMenu;
     private DefaultListModel<Course> courseListModel;
     private JList<Course> availableCoursesList;
-    public AvailableCourses() {
-
+    private Student loggedStudent;
+    public AvailableCourses(Student student) {
+        loggedStudent = student;
         panel = new JPanel();
         sideMenu = new JPanel();
         logo = new JLabel();
@@ -77,6 +81,11 @@ public class AvailableCourses extends JFrame{
         logo.setText("Rate University Application");
 
         homePanel.setBackground(new Color(0, 102, 102));
+        homePanel.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent evt) {
+                homePanelMouseClicked(evt);
+            }
+        });
 
         homeLogo.setHorizontalAlignment(SwingConstants.CENTER);
         homeLogo.setIcon(new ImageIcon("Images/Home.png"));
@@ -352,12 +361,24 @@ public class AvailableCourses extends JFrame{
 
 
     private void homePanelMouseClicked(MouseEvent evt) {
+        Home homeFrame = new Home(loggedStudent);
+        homeFrame.setVisible(true);
+        homeFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
     private void profilePanelMouseClicked(MouseEvent evt) {
+        Profile profileFrame = new Profile(loggedStudent);
+        profileFrame.setVisible(true);
+        profileFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
     private void myCoursePanelMouseClicked(MouseEvent evt) {
+        MyCourses myCoursesFrame = new MyCourses(loggedStudent);
+        myCoursesFrame.setVisible(true);
+        myCoursesFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
     private void availableCoursesPanelMouseClicked(MouseEvent evt) {
@@ -365,7 +386,11 @@ public class AvailableCourses extends JFrame{
     }
 
     private void logOutPanelMouseClicked(MouseEvent evt) {
-
+        LogIn LoginFrame =new LogIn();
+        LoginFrame.setVisible(true);
+        LoginFrame.pack();
+        LoginFrame.setLocationRelativeTo(null);
+        this.setVisible(false);
     }
 
 
