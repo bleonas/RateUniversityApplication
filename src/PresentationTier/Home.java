@@ -57,6 +57,7 @@ public class Home extends JFrame {
         jTextArea1 = new JTextArea();
         jScrollPane2 = new JScrollPane();
         jTextArea2 = new JTextArea();
+        loggedStudent=student;
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);

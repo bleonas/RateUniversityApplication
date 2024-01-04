@@ -50,7 +50,7 @@ public class UserAuthentication implements ProcessData {
 
     public ArrayList<Course> getAvailableCoursesForStudent(Student student){
 
-        ArrayList<Course> registeredCourses = (ArrayList<Course>) checker.getCoursesForStudent(student);
+        ArrayList<Course> registeredCourses =student.getCoursesJoined();
         ArrayList<Course> allCourses = (ArrayList<Course>) checker.getAllCourses();
         ArrayList<Course> availableCourses= new ArrayList<>();
         for(int i=0;i<allCourses.size();i++){
@@ -66,5 +66,15 @@ public class UserAuthentication implements ProcessData {
 
         return availableCourses;
     }
+
+    public void joinCourse(Student student, Course course){
+        student.getCoursesJoined().add(course);
+        saver.addCourseForStudent(course,student);
+    }
+    public void dropCourse(Student student, Course course){
+        student.getCoursesJoined().remove(course);
+        saver.dropCourseForStudent(course,student);
+    }
+
 
 }

@@ -1,12 +1,16 @@
 
 package PresentationTier;
 
+import LogicLayer.ProcessData;
+import LogicLayer.UserAuthentication;
 import Resources.Course;
 import Resources.Student;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Time;
+import java.util.ArrayList;
 
 
 public class AvailableCourses extends JFrame{
@@ -35,6 +39,7 @@ public class AvailableCourses extends JFrame{
     private DefaultListModel<Course> courseListModel;
     private JList<Course> availableCoursesList;
     private Student loggedStudent;
+    private ProcessData processor  = new UserAuthentication();
     public AvailableCourses(Student student) {
         loggedStudent = student;
         panel = new JPanel();
@@ -60,13 +65,12 @@ public class AvailableCourses extends JFrame{
         titleLabel = new JLabel();
         courseListModel = new DefaultListModel<>();
         availableCoursesList = new JList<>(courseListModel);
-
-
         availableCoursesList.setModel(courseListModel);
-        // TODO: set startingHour and finishHour as Time objects
-        courseListModel.addElement(new Course("CyberSecurity", "John Doe", 42,"09:00" , "11:00", "Monday", 1, 4.0, 201));
-        courseListModel.addElement(new Course("Computer Architecture", "John Doe", 42,"09:00" , "11:00", "Monday", 1, 4.0, 201));
-        courseListModel.addElement(new Course("Algorithms", "John Doe", 42,"09:00" , "11:00", "Monday", 1, 4.0, 201));
+
+        ArrayList<Course> availableCourses= (ArrayList<Course>)processor.getAvailableCoursesForStudent(loggedStudent);
+        for(int i=0;i<availableCourses.size();i++){
+            courseListModel.addElement(availableCourses.get(i));
+        }
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 

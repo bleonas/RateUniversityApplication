@@ -59,7 +59,9 @@ public class Saver implements DataSaver {
             String addParticipant = "UPDATE courses SET no_of_students=no_of_students+1 WHERE course_name='"+course.getCourseName()+"';";
             preparedStatement= connection.prepareStatement(addParticipant);
             preparedStatement.execute();
-
+            String incrementCourseNumber = "UPDATE students SET no_of_courses=no_of_courses+1 WHERE email ='"+student.getEmail()+"';";
+            preparedStatement= connection.prepareStatement(incrementCourseNumber);
+            preparedStatement.execute();
             connection.close();
         }
 
@@ -82,6 +84,9 @@ public class Saver implements DataSaver {
             String removeParticipant = "UPDATE courses SET no_of_students=no_of_students-1 WHERE course_name='"+
                     course.getCourseName()+"';";
             preparedStatement= connection.prepareStatement(removeParticipant);
+            preparedStatement.execute();
+            String decrementCourseNumber = "UPDATE students SET no_of_courses=no_of_courses+1 WHERE email ='"+student.getEmail()+"';";
+            preparedStatement= connection.prepareStatement(decrementCourseNumber);
             preparedStatement.execute();
 
             connection.close();

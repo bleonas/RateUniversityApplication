@@ -10,6 +10,5 @@ public interface DataReader {
     List<Feedback> getFeedbacksForCourse(Course course);
     List<Course> getAllCourses();
     boolean searchForStudent(Student student);
-    List<Course> getCoursesForStudent(Student student);
     Student getStudent(String email);
 }

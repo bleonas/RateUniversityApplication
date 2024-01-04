@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Profile extends JFrame {
+public class Profile extends JFrame{
     private JLabel availableCoursesLabel;
     private JLabel availableCoursesLogo;
     private JPanel availableCoursesPanel;
@@ -335,23 +335,25 @@ public class Profile extends JFrame {
 
         nameLabel.setFont(new Font("Segoe UI Semibold", 1, 14));
         nameLabel.setForeground(new Color(93, 131, 148));
-        nameLabel.setText("  Name:     ");
+
+        String[] names = loggedStudent.getfullName().split(" ");
+        nameLabel.setText("  Name:     "+names[0]);
 
         surnameLabel.setFont(new Font("Segoe UI Semibold", 1, 14));
         surnameLabel.setForeground(new Color(93, 131, 148));
-        surnameLabel.setText("  Surname:     ");
+        surnameLabel.setText("  Surname:     "+names[1]);
 
         emailLabel.setFont(new Font("Segoe UI Semibold", 1, 14));
         emailLabel.setForeground(new Color(93, 131, 148));
-        emailLabel.setText("  Email Address:     ");
+        emailLabel.setText("  Email Address:     "+loggedStudent.getEmail());
 
         deegreLabel.setFont(new Font("Segoe UI Semibold", 1, 14));
         deegreLabel.setForeground(new Color(93, 131, 148));
-        deegreLabel.setText("  Deegre:     ");
+        deegreLabel.setText("  Deegre:     Computer Science");
 
         yearLabel.setFont(new Font("Segoe UI Semibold", 1, 14));
         yearLabel.setForeground(new Color(93, 131, 148));
-        yearLabel.setText("  Year Of Studies:    ");
+        yearLabel.setText("  Year Of Studies:   3");
 
         GroupLayout profileLayout = new GroupLayout(profile);
         profile.setLayout(profileLayout);

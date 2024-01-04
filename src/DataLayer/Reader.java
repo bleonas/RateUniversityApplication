@@ -110,8 +110,9 @@ public class Reader  implements DataReader {
         return feedbacksForCourse;
     }
 
-    public ArrayList<Course> getCoursesForStudent(Student student){
-        String studentId = "SELECT student_id FROM students WHERE email='"+student.getEmail()+"'";
+    private ArrayList<Course> getCoursesForStudent(String email){
+
+        String studentId = "SELECT student_id FROM students WHERE email='"+email+"'";
         String findCourses = "SELECT course_name FROM registrations WHERE student_id=("+studentId+");";
 
         ArrayList<Course> registeredCoursesInfo = new ArrayList<>();
@@ -170,6 +171,8 @@ public class Reader  implements DataReader {
                         resultSet.getString("student_password")
                 );
             }
+            if(student!=null)
+            student.setCoursesJoined(getCoursesForStudent(email));
         }
         catch(SQLException checkStudentFailure){
             checkStudentFailure.printStackTrace();

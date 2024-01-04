@@ -189,40 +189,30 @@ public class LogIn extends JFrame implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Email is required!", "Error", JOptionPane.ERROR_MESSAGE);
             } else if (!(email.contains("@"))) {
                 JOptionPane.showMessageDialog(null, "Email must contain '@'!", "Error", JOptionPane.ERROR_MESSAGE);
-            } else if ("".equals(password)) {
+            } else if (password.length==0) {
                 JOptionPane.showMessageDialog(null, "Password is required!", "Error", JOptionPane.ERROR_MESSAGE);
             }
             else{
+                Student student = new Student(email,new String(password));
 
-                Student student = processor.getStudent(email);
-                if(student==null){
+                if(!processor.isRegistered(student)){
                     JOptionPane.showMessageDialog(null,"This user has not been registered into the system!","Error",JOptionPane.ERROR_MESSAGE);
                 }
-                int checked = processor.authenticateUser(student);
-                if(checked==103) {
-                    JOptionPane.showMessageDialog(null, "Log in was successful!", "Log In status", JOptionPane.INFORMATION_MESSAGE);
-                    this.dispose();
-                    Home home = new Home(student);
-                    home.setVisible(true);
-                    home.pack();
-                    home.setLocationRelativeTo(null);
+                 else{
+                        student=processor.getStudent(email);
+                                if(!student.getPassword().equals(new String(password)))
+                                {
+                                    JOptionPane.showMessageDialog(null,"Wrong password!","Log In Status",JOptionPane.ERROR_MESSAGE);
+                                }
+                                else{
+                                    JOptionPane.showMessageDialog(null, "Log in was successful!", "Log In status", JOptionPane.INFORMATION_MESSAGE);
+                                    this.dispose();
+                                    Home home = new Home(student);
+                                    home.setVisible(true);
+                                    home.pack();
+                                    home.setLocationRelativeTo(null);
+                            }
 
-                }
-                else if(checked==100){
-                    JOptionPane.showMessageDialog(null, "Email must contain a domain, recipient name and top level domain.\nOnly " +
-                            "uppercase and lowercase letters (A-Z, a-z)\n" +
-                            "Digits from 0 to 9\n" +
-                            "Special characters such as ! # $ % & ' * + - / = ? ^ _ ` { | are allowed!", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-
-                else {
-                    JOptionPane.showMessageDialog(null,"The password must contain at least 8 characters and at " +
-                            "most 20 characters.\n" +
-                            "at least one digit," +
-                            "one upper case alphabet," +
-                            "one lower case alphabet,\n" +
-                            " and one special character which includes !@#$%&*()-+=^.\n" +
-                            " It must not contain any white space.");
                 }
             }
         }

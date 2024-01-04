@@ -161,15 +161,15 @@ public class SignUp extends JFrame implements ActionListener{
     public void actionPerformed(ActionEvent event){
         String fullName = nameField.getText();
         String email = emailField.getText();
-        String password = passwordField.getText();
+        char [] password = passwordField.getPassword();
 
         if(event.getSource()==signUpButton){
 
-            if(fullName=="" || email=="" || password==""){
+            if(fullName=="" || email=="" || password.length==0){
                 JOptionPane.showMessageDialog(null,"Please fill in all the required fields!","Error",JOptionPane.ERROR_MESSAGE);
             }
             else{
-                Student student = new Student(fullName,email,password);
+                Student student = new Student(fullName,email,new String(password));
                 student.setCoursesJoined(new ArrayList<>());
                 int checked =processor.authenticateUser(student);
 
