@@ -75,7 +75,8 @@ public class Saver implements DataSaver {
     public void dropCourseForStudent(Course course, Student student){
 
         String findStudent = "SELECT student_id FROM students WHERE email ='"+student.getEmail()+"'";
-        String dropCourseForStudent ="DELETE FROM registrations WHERE student_id=(" + findStudent+");";
+        String dropCourseForStudent = "DELETE FROM registrations WHERE student_id = '" + findStudent + "' AND course_name = '" +
+                course.getCourseName() + "';";
 
         try{
             Connection connection = setConnection();
