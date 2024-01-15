@@ -59,4 +59,11 @@ public class Course {
     public Time getFinishHour() {
         return finishHour;
     }
+
+    public String getDayOftheWeek(){ return dayOftheWeek; }
+    public int getSemester(){
+        return semester;
+    }
+
+    public double getRating(){ return averageRating; }
 }
