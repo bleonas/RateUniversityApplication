@@ -43,6 +43,11 @@ public class MyCourses extends JFrame {
     private JLabel courseName;
     private JPanel courseSelector;
     private JButton dropButton;
+    private JPanel courseFeedbacks;
+    private JList<Feedback> feedbacksList;
+    private JScrollPane feedbacksPanel;
+    private JLabel feedbacksTitle;
+    private JButton leaveFeedbackButton;
     private ArrayList<Course> registeredCourses;
     private Student loggedStudent;
     private ProcessData processor = new UserAuthentication();
@@ -76,9 +81,13 @@ public class MyCourses extends JFrame {
         courseLecturer = new JLabel();
         courseHours = new JLabel();
         dropButton = new JButton();
-        registeredCourses=new ArrayList<>();
+        courseFeedbacks = new JPanel();
+        feedbacksTitle = new JLabel();
+        feedbacksPanel = new JScrollPane();
+        feedbacksList = new JList<>();
+        leaveFeedbackButton = new JButton();
+        registeredCourses = (ArrayList<Course>) loggedStudent.getCoursesJoined();
 
-        registeredCourses = loggedStudent.getCoursesJoined();
         DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
         for (Course myCourse : registeredCourses) {
             model.addElement(myCourse.getCourseName());
@@ -417,6 +426,66 @@ public class MyCourses extends JFrame {
                                 .addContainerGap())
         );
 
+        courseFeedbacks.setBackground(new Color(255, 255, 255));
+
+        feedbacksTitle.setFont(new Font("Segoe UI Semibold", 1, 14));
+        feedbacksTitle.setForeground(new Color(93, 131, 148));
+        feedbacksTitle.setText("Course Feedbacks");
+
+        feedbacksList.setFont(new Font("Segoe UI Semibold", 1, 14));
+        feedbacksList.setForeground(new Color(93, 131, 148));
+
+        //TODO Set feedbacksList Model
+        /*feedbacksList.setModel(new AbstractListModel<String>() {
+            String[] strings = {"Item 1", "Item 2", "Item 3", "Item 4", "Item 5"};
+
+            public int getSize() {return strings.length;}
+
+            public String getElementAt(int i) {return strings[i];}
+        });*/
+
+        feedbacksList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        feedbacksList.setToolTipText("");
+        feedbacksList.setSelectionBackground(new Color(0, 102, 102));
+        feedbacksPanel.setViewportView(feedbacksList);
+
+        leaveFeedbackButton.setBackground(new Color(0, 153, 153));
+        leaveFeedbackButton.setFont(new Font("Segoe UI Semibold", 1, 12));
+        leaveFeedbackButton.setForeground(new Color(255, 255, 255));
+        leaveFeedbackButton.setText("Leave Feedback");
+        leaveFeedbackButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                leaveFeedbackButtonActionPerformed(evt);
+            }
+        });
+
+        GroupLayout courseFeedbacksLayout = new GroupLayout(courseFeedbacks);
+        courseFeedbacks.setLayout(courseFeedbacksLayout);
+        courseFeedbacksLayout.setHorizontalGroup(
+                courseFeedbacksLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseFeedbacksLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(courseFeedbacksLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(feedbacksPanel, GroupLayout.DEFAULT_SIZE, 557, Short.MAX_VALUE)
+                                        .addGroup(courseFeedbacksLayout.createSequentialGroup()
+                                                .addComponent(feedbacksTitle, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(48, 48, 48)
+                                                .addComponent(leaveFeedbackButton, GroupLayout.PREFERRED_SIZE, 137, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addContainerGap())
+        );
+        courseFeedbacksLayout.setVerticalGroup(
+                courseFeedbacksLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseFeedbacksLayout.createSequentialGroup()
+                                .addGroup(courseFeedbacksLayout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                                        .addComponent(feedbacksTitle, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(leaveFeedbackButton, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(feedbacksPanel, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                                .addContainerGap())
+        );
+
+
         GroupLayout mainBoardLayout = new GroupLayout(mainBoard);
         mainBoard.setLayout(mainBoardLayout);
         mainBoardLayout.setHorizontalGroup(
@@ -424,6 +493,7 @@ public class MyCourses extends JFrame {
                         .addGroup(mainBoardLayout.createSequentialGroup()
                                 .addGap(35, 35, 35)
                                 .addGroup(mainBoardLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(courseFeedbacks, GroupLayout.PREFERRED_SIZE, 581, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(courseSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(courseDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -438,7 +508,9 @@ public class MyCourses extends JFrame {
                                 .addComponent(courseSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(courseDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(43, 43, 43)
+                                .addComponent(courseFeedbacks, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         panel.add(mainBoard);
@@ -483,7 +555,7 @@ public class MyCourses extends JFrame {
     }
 
     private void logOutPanelMouseClicked(MouseEvent evt) {
-        LogIn LoginFrame =new LogIn();
+        LogIn LoginFrame = new LogIn();
         LoginFrame.setVisible(true);
         LoginFrame.pack();
         LoginFrame.setLocationRelativeTo(null);
@@ -525,17 +597,53 @@ public class MyCourses extends JFrame {
         }
     }
 
-    public void updateCourseDetails(Course selectedCourse){
+    public void updateCourseDetails(Course selectedCourse) {
         courseName.setText(selectedCourse.getCourseName() + "   " + selectedCourse.getRating());
-
-        courseLecturer.setText("Lecturer: "+ selectedCourse.getLecturer() + "     Number of Students: " + selectedCourse.getNumberOfStudents());
-
-        courseHours.setText("Lecture Time and Hall: "+selectedCourse.getDayOftheWeek()+ " - "
-                +selectedCourse.getStartingHour()+" : "
-                +selectedCourse.getFinishHour()+" - Hall "
-                +selectedCourse.getLectureHall()+" - Semester "
-                +selectedCourse.getSemester());
+        courseLecturer.setText("Lecturer: " + selectedCourse.getLecturer() + "     Number of Students: " + selectedCourse.getNumberOfStudents());
+        courseHours.setText("Lecture Time and Hall: " + selectedCourse.getDayOftheWeek() + " - "
+                + selectedCourse.getStartingHour() + " : "
+                + selectedCourse.getFinishHour() + " - Hall "
+                + selectedCourse.getLectureHall() + " - Semester "
+                + selectedCourse.getSemester());
+        //TODO add code to update feedbacks according to the selected course
     }
 
+    private void leaveFeedbackButtonActionPerformed(ActionEvent evt) {
+        showFeedbackDialog();
+    }
+
+    private void showFeedbackDialog() {
+        JDialog dialog = new JDialog();
+        JPanel dialogPanel = new JPanel();
+        JButton submitButton = new JButton("Submit");
+
+        dialogPanel.add(new JLabel("Feedback: "));
+        JTextField dialogTextField = new JTextField(50);
+        dialogPanel.add(dialogTextField);
+
+        dialogPanel.add(new JLabel("Rating: "));
+        JComboBox<Integer> dialogRatingComboBox = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
+        dialogRatingComboBox.setSelectedItem(null);
+        dialogPanel.add(dialogRatingComboBox);
+        dialogPanel.add(submitButton);
+
+        submitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String description = dialogTextField.getText();
+                int rating = (int) dialogRatingComboBox.getSelectedItem();
+                //Feedback myFeedback = new Feedback();
+                //myFeedback.setCourseName();
+                //myFeedback.setDescription(description);
+                //myFeedback.setRating(rating);
+                dialog.dispose();
+            }
+        });
+
+        dialog.add(dialogPanel);
+        dialog.setSize(600, 300);
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }
 
 }
