@@ -22,7 +22,6 @@ public class AvailableCourses extends JFrame{
     private JLabel homeLogo;
     private JPanel homePanel;
     private JLabel titleLabel;
-    private JScrollPane jScrollPane1;
     private JLabel logOUtLogo;
     private JLabel logOutLabel;
     private JPanel logOutPanel;
@@ -36,8 +35,16 @@ public class AvailableCourses extends JFrame{
     private JLabel profileLogo;
     private JPanel profilePanel;
     private JPanel sideMenu;
-    private DefaultListModel<Course> courseListModel;
-    private JList<Course> availableCoursesList;
+    private JPanel courseDetails;
+    private JPanel courseFinder;
+    private JLabel courseHours;
+    private JLabel courseLecturer;
+    private JComboBox<String> courseList;
+    private JLabel courseName;
+    private JButton searchButton;
+    private JTextField searchCourse;
+    private JButton joinButton;
+    private ArrayList<Course> availableCourses;
     private Student loggedStudent;
     private ProcessData processor  = new UserAuthentication();
     public AvailableCourses(Student student) {
@@ -61,16 +68,24 @@ public class AvailableCourses extends JFrame{
         logOUtLogo = new JLabel();
         logOutLabel = new JLabel();
         mainBoard = new JPanel();
-        jScrollPane1 = new JScrollPane();
         titleLabel = new JLabel();
-        courseListModel = new DefaultListModel<>();
-        availableCoursesList = new JList<>(courseListModel);
-        availableCoursesList.setModel(courseListModel);
+        courseFinder = new JPanel();
+        searchCourse = new JTextField();
+        searchButton = new JButton();
+        courseDetails = new JPanel();
+        courseName = new JLabel();
+        courseLecturer = new JLabel();
+        courseHours = new JLabel();
+        joinButton = new JButton();
+        courseList= new JComboBox<>();
+        availableCourses = (ArrayList<Course>) processor.getAvailableCoursesForStudent(loggedStudent);
 
-        ArrayList<Course> availableCourses= (ArrayList<Course>)processor.getAvailableCoursesForStudent(loggedStudent);
-        for(int i=0;i<availableCourses.size();i++){
-            courseListModel.addElement(availableCourses.get(i));
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        for (Course myCourse : availableCourses) {
+            model.addElement(myCourse.getCourseName());
         }
+        courseList = new JComboBox<>(model);
+        courseList.setSelectedItem(null);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -312,18 +327,121 @@ public class AvailableCourses extends JFrame{
 
         mainBoard.setBackground(new Color(255, 255, 255));
         mainBoard.setPreferredSize(new Dimension(800, 650));
-        availableCoursesList.setForeground(new Color(93, 131, 148));
-        availableCoursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        availableCoursesList.setVisibleRowCount(15);
-        jScrollPane1.setViewportView(availableCoursesList);
-        availableCoursesList.getAccessibleContext().setAccessibleName("");
-        availableCoursesList.getAccessibleContext().setAccessibleDescription("");
 
         titleLabel.setBackground(new Color(255, 255, 255));
         titleLabel.setFont(new Font("Segoe UI Semibold", 1, 14));
         titleLabel.setForeground(new Color(93, 131, 148));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setText("Available Courses");
+
+        courseFinder.setBackground(new Color(255, 255, 255));
+
+        searchCourse.setText("Search here...");
+        searchCourse.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                searchCourseActionPerformed(evt);
+            }
+        });
+
+        searchButton.setBackground(new Color(0, 153, 153));
+        searchButton.setFont(new Font("Segoe UI Semibold", 1, 12));
+        searchButton.setForeground(new Color(255, 255, 255));
+        searchButton.setText("Search");
+        searchButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
+
+
+        courseList.setToolTipText("Select one of the courses to see further information");
+        courseList.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                courseListActionPerformed(evt);
+            }
+        });
+
+        GroupLayout courseFinderLayout = new GroupLayout(courseFinder);
+        courseFinder.setLayout(courseFinderLayout);
+        courseFinderLayout.setHorizontalGroup(
+                courseFinderLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseFinderLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(courseFinderLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(courseFinderLayout.createSequentialGroup()
+                                                .addComponent(searchCourse, GroupLayout.PREFERRED_SIZE, 403, GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                                                .addComponent(searchButton, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(24, 24, 24))
+                                        .addGroup(courseFinderLayout.createSequentialGroup()
+                                                .addComponent(courseList, GroupLayout.PREFERRED_SIZE, 542, GroupLayout.PREFERRED_SIZE)
+                                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        courseFinderLayout.setVerticalGroup(
+                courseFinderLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseFinderLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(courseFinderLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(searchCourse)
+                                        .addComponent(searchButton, GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(courseList, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        courseDetails.setBackground(new Color(255, 255, 255));
+        courseDetails.setAutoscrolls(true);
+        courseDetails.setName("");
+
+        courseName.setFont(new Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        courseName.setForeground(new Color(93, 131, 148));
+
+        courseLecturer.setFont(new Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        courseLecturer.setForeground(new Color(93, 131, 148));
+
+        courseHours.setFont(new Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        courseHours.setForeground(new Color(93, 131, 148));
+
+        joinButton.setBackground(new Color(0, 153, 153));
+        joinButton.setForeground(new Color(255, 255, 255));
+        joinButton.setText("Join Course");
+        joinButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                joinButtonActionPerformed(evt);
+            }
+        });
+
+        GroupLayout courseDetailsLayout = new GroupLayout(courseDetails);
+        courseDetails.setLayout(courseDetailsLayout);
+        courseDetailsLayout.setHorizontalGroup(
+                courseDetailsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseDetailsLayout.createSequentialGroup()
+                                .addGroup(courseDetailsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(courseDetailsLayout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(courseName, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(joinButton, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(courseDetailsLayout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(courseLecturer, GroupLayout.PREFERRED_SIZE, 561, GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(courseDetailsLayout.createSequentialGroup()
+                                                .addContainerGap()
+                                                .addComponent(courseHours, GroupLayout.PREFERRED_SIZE, 561, GroupLayout.PREFERRED_SIZE)))
+                                .addContainerGap(23, Short.MAX_VALUE))
+        );
+        courseDetailsLayout.setVerticalGroup(
+                courseDetailsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseDetailsLayout.createSequentialGroup()
+                                .addGroup(courseDetailsLayout.createParallelGroup(GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(joinButton, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                                        .addComponent(courseName, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(1, 1, 1)
+                                .addComponent(courseLecturer, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(courseHours, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         GroupLayout mainBoardLayout = new GroupLayout(mainBoard);
         mainBoard.setLayout(mainBoardLayout);
@@ -332,18 +450,21 @@ public class AvailableCourses extends JFrame{
                         .addGroup(mainBoardLayout.createSequentialGroup()
                                 .addGap(35, 35, 35)
                                 .addGroup(mainBoardLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 588, GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(157, Short.MAX_VALUE))
+                                        .addComponent(courseFinder, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(courseDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(149, Short.MAX_VALUE))
         );
         mainBoardLayout.setVerticalGroup(
                 mainBoardLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(GroupLayout.Alignment.TRAILING, mainBoardLayout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap()
+                                .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 506, GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(55, Short.MAX_VALUE))
+                                .addComponent(courseFinder, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(courseDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(379, Short.MAX_VALUE))
         );
 
         panel.add(mainBoard);
@@ -353,7 +474,7 @@ public class AvailableCourses extends JFrame{
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
+                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -379,7 +500,7 @@ public class AvailableCourses extends JFrame{
     }
 
     private void myCoursePanelMouseClicked(MouseEvent evt) {
-        MyCourses myCoursesFrame = new MyCourses(loggedStudent);
+        PresentationTier.MyCourses myCoursesFrame = new PresentationTier.MyCourses(loggedStudent);
         myCoursesFrame.setVisible(true);
         myCoursesFrame.setLocationRelativeTo(null);
         this.setVisible(false);
@@ -396,6 +517,59 @@ public class AvailableCourses extends JFrame{
         LoginFrame.setLocationRelativeTo(null);
         this.setVisible(false);
     }
+    private void joinButtonActionPerformed(ActionEvent evt) {
+        String selectedCourseName = (String) courseList.getSelectedItem();
 
+        if (selectedCourseName != null) {
+            Course selectedCourse = null;
+            for (Course course : availableCourses) {
+                if (course.getCourseName().equals(selectedCourseName)) {
+                    selectedCourse = course;
+                    break;
+                }
+            }
+
+            if (selectedCourse != null) {
+                processor.joinCourse(loggedStudent, selectedCourse);
+                AvailableCourses updatedCoursesFrame = new AvailableCourses(loggedStudent);
+                updatedCoursesFrame.setVisible(true);
+                updatedCoursesFrame.pack();
+                updatedCoursesFrame.setLocationRelativeTo(null);
+                dispose();
+            }
+        }
+    }
+
+    private void searchButtonActionPerformed(ActionEvent evt) {
+        // TODO add searchCourse code
+    }
+
+    private void searchCourseActionPerformed(ActionEvent evt) {
+        // TODO add searchCourse code
+    }
+
+    private void courseListActionPerformed(ActionEvent evt) {
+        String selectedCourse = (String) courseList.getSelectedItem();
+        if (selectedCourse != null) {
+            for (Course course : availableCourses) {
+                if (course.getCourseName().equals(selectedCourse)) {
+                    updateCourseDetails(course);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void updateCourseDetails(Course selectedCourse){
+        courseName.setText(selectedCourse.getCourseName() + "   " + selectedCourse.getRating());
+
+        courseLecturer.setText("Lecturer: "+ selectedCourse.getLecturer() + "     Number of Students: " + selectedCourse.getNumberOfStudents());
+
+        courseHours.setText("Lecture Time and Hall: "+selectedCourse.getDayOftheWeek()+ " - "
+                +selectedCourse.getStartingHour()+" : "
+                +selectedCourse.getFinishHour()+" - Hall "
+                +selectedCourse.getLectureHall()+" - Semester "
+                +selectedCourse.getSemester());
+    }
 
 }
