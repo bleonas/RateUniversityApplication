@@ -4,6 +4,7 @@ package PresentationTier;
 import LogicLayer.ProcessData;
 import LogicLayer.UserAuthentication;
 import Resources.Course;
+import Resources.Feedback;
 import Resources.Student;
 
 import javax.swing.*;
@@ -22,7 +23,6 @@ public class MyCourses extends JFrame {
     private JLabel homeLogo;
     private JPanel homePanel;
     private JLabel titleLabel;
-    private JScrollPane jScrollPane1;
     private JLabel logOUtLogo;
     private JLabel logOutLabel;
     private JPanel logOutPanel;
@@ -36,11 +36,17 @@ public class MyCourses extends JFrame {
     private JLabel profileLogo;
     private JPanel profilePanel;
     private JPanel sideMenu;
-    private DefaultListModel<Course> courseListModel;
-    private JList<Course> myCoursesList;
+    private JPanel courseDetails;
+    private JLabel courseHours;
+    private JLabel courseLecturer;
+    private JComboBox<String> courseList;
+    private JLabel courseName;
+    private JPanel courseSelector;
+    private JButton dropButton;
+    private ArrayList<Course> registeredCourses;
     private Student loggedStudent;
     private ProcessData processor = new UserAuthentication();
-    
+
     public MyCourses(Student student) {
         loggedStudent = student;
         panel = new JPanel();
@@ -62,16 +68,23 @@ public class MyCourses extends JFrame {
         logOUtLogo = new JLabel();
         logOutLabel = new JLabel();
         mainBoard = new JPanel();
-        jScrollPane1 = new JScrollPane();
         titleLabel = new JLabel();
-        courseListModel = new DefaultListModel<>();
-        myCoursesList = new JList<>(courseListModel);
-        myCoursesList.setModel(courseListModel);
+        courseSelector = new JPanel();
+        courseList = new JComboBox<>();
+        courseDetails = new JPanel();
+        courseName = new JLabel();
+        courseLecturer = new JLabel();
+        courseHours = new JLabel();
+        dropButton = new JButton();
+        registeredCourses=new ArrayList<>();
 
-        ArrayList<Course> registeredCourses = loggedStudent.getCoursesJoined();
-            for (int i = 0; i < registeredCourses.size(); i++) {
-                courseListModel.addElement(registeredCourses.get(i));
-            }
+        registeredCourses = loggedStudent.getCoursesJoined();
+        DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>();
+        for (Course myCourse : registeredCourses) {
+            model.addElement(myCourse.getCourseName());
+        }
+        courseList = new JComboBox<>(model);
+        courseList.setSelectedItem(null);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,7 +104,6 @@ public class MyCourses extends JFrame {
                 homePanelMouseClicked(evt);
             }
         });
-
 
         homeLogo.setHorizontalAlignment(SwingConstants.CENTER);
         homeLogo.setIcon(new ImageIcon("Images/Home.png"));
@@ -316,19 +328,94 @@ public class MyCourses extends JFrame {
         mainBoard.setBackground(new Color(255, 255, 255));
         mainBoard.setPreferredSize(new Dimension(800, 650));
 
-
-        myCoursesList.setForeground(new Color(93, 131, 148));
-        myCoursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        myCoursesList.setVisibleRowCount(15);
-        jScrollPane1.setViewportView(myCoursesList);
-        myCoursesList.getAccessibleContext().setAccessibleName("");
-        myCoursesList.getAccessibleContext().setAccessibleDescription("");
-
         titleLabel.setBackground(new Color(255, 255, 255));
         titleLabel.setFont(new Font("Segoe UI Semibold", 1, 14));
         titleLabel.setForeground(new Color(93, 131, 148));
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         titleLabel.setText("My Courses");
+
+        courseSelector.setBackground(new Color(255, 255, 255));
+
+        courseList.setToolTipText("Select one of the courses to see further information");
+        courseList.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                courseListActionPerformed(evt);
+            }
+        });
+
+
+        GroupLayout courseSelectorLayout = new GroupLayout(courseSelector);
+        courseSelector.setLayout(courseSelectorLayout);
+        courseSelectorLayout.setHorizontalGroup(
+                courseSelectorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseSelectorLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(courseList, GroupLayout.PREFERRED_SIZE, 542, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(60, Short.MAX_VALUE))
+        );
+        courseSelectorLayout.setVerticalGroup(
+                courseSelectorLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseSelectorLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(courseList, GroupLayout.PREFERRED_SIZE, 32, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        courseDetails.setBackground(new Color(255, 255, 255));
+        courseDetails.setAutoscrolls(true);
+        courseDetails.setName("");
+
+        courseName.setFont(new Font("Segoe UI Semibold", 1, 14));
+        courseName.setForeground(new Color(93, 131, 148));
+
+        courseLecturer.setFont(new Font("Segoe UI Semibold", 1, 14));
+        courseLecturer.setForeground(new Color(93, 131, 148));
+
+        courseHours.setFont(new Font("Segoe UI Semibold", 1, 14));
+        courseHours.setForeground(new Color(93, 131, 148));
+
+        dropButton.setBackground(new Color(0, 153, 153));
+        dropButton.setFont(new Font("Segoe UI Semibold", 1, 12));
+        dropButton.setForeground(new Color(255, 255, 255));
+        dropButton.setText("Drop Course");
+        dropButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent evt) {
+                dropButtonActionPerformed(evt);
+            }
+        });
+
+        GroupLayout courseDetailsLayout = new GroupLayout(courseDetails);
+        courseDetails.setLayout(courseDetailsLayout);
+        courseDetailsLayout.setHorizontalGroup(
+                courseDetailsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseDetailsLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(courseDetailsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(courseDetailsLayout.createSequentialGroup()
+                                                .addComponent(courseName, GroupLayout.PREFERRED_SIZE, 224, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(dropButton)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGroup(courseDetailsLayout.createSequentialGroup()
+                                                .addGroup(courseDetailsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                                        .addComponent(courseLecturer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addGroup(courseDetailsLayout.createSequentialGroup()
+                                                                .addComponent(courseHours, GroupLayout.PREFERRED_SIZE, 561, GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(0, 11, Short.MAX_VALUE)))
+                                                .addContainerGap())))
+        );
+        courseDetailsLayout.setVerticalGroup(
+                courseDetailsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseDetailsLayout.createSequentialGroup()
+                                .addGroup(courseDetailsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(courseName, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(dropButton))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(courseLecturer, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(courseHours, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap())
+        );
 
         GroupLayout mainBoardLayout = new GroupLayout(mainBoard);
         mainBoard.setLayout(mainBoardLayout);
@@ -337,18 +424,21 @@ public class MyCourses extends JFrame {
                         .addGroup(mainBoardLayout.createSequentialGroup()
                                 .addGap(35, 35, 35)
                                 .addGroup(mainBoardLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                        .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 588, GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(157, Short.MAX_VALUE))
+                                        .addComponent(courseSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(courseDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(131, Short.MAX_VALUE))
         );
         mainBoardLayout.setVerticalGroup(
                 mainBoardLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGroup(GroupLayout.Alignment.TRAILING, mainBoardLayout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap()
+                                .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, GroupLayout.PREFERRED_SIZE, 506, GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(55, Short.MAX_VALUE))
+                                .addComponent(courseSelector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(courseDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         panel.add(mainBoard);
@@ -358,7 +448,7 @@ public class MyCourses extends JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 908, Short.MAX_VALUE)
+                        .addComponent(panel, GroupLayout.DEFAULT_SIZE, 900, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -366,7 +456,7 @@ public class MyCourses extends JFrame {
         );
 
         pack();
-    }                     
+    }
 
     private void homePanelMouseClicked(MouseEvent evt) {
         Home homeFrame = new Home(loggedStudent);
@@ -399,5 +489,53 @@ public class MyCourses extends JFrame {
         LoginFrame.setLocationRelativeTo(null);
         this.setVisible(false);
     }
-    
+
+    private void dropButtonActionPerformed(ActionEvent evt) {
+        String selectedCourseName = (String) courseList.getSelectedItem();
+
+        if (selectedCourseName != null) {
+            Course selectedCourse = null;
+            for (Course course : registeredCourses) {
+                if (course.getCourseName().equals(selectedCourseName)) {
+                    selectedCourse = course;
+                    break;
+                }
+            }
+
+            if (selectedCourse != null) {
+                processor.dropCourse(loggedStudent, selectedCourse);
+                MyCourses updatedCoursesFrame = new MyCourses(loggedStudent);
+                updatedCoursesFrame.setVisible(true);
+                updatedCoursesFrame.pack();
+                updatedCoursesFrame.setLocationRelativeTo(null);
+                dispose();
+            }
+        }
+    }
+
+    private void courseListActionPerformed(ActionEvent evt) {
+        String selectedCourse = (String) courseList.getSelectedItem();
+        if (selectedCourse != null) {
+            for (Course course : registeredCourses) {
+                if (course.getCourseName().equals(selectedCourse)) {
+                    updateCourseDetails(course);
+                    break;
+                }
+            }
+        }
+    }
+
+    public void updateCourseDetails(Course selectedCourse){
+        courseName.setText(selectedCourse.getCourseName() + "   " + selectedCourse.getRating());
+
+        courseLecturer.setText("Lecturer: "+ selectedCourse.getLecturer() + "     Number of Students: " + selectedCourse.getNumberOfStudents());
+
+        courseHours.setText("Lecture Time and Hall: "+selectedCourse.getDayOftheWeek()+ " - "
+                +selectedCourse.getStartingHour()+" : "
+                +selectedCourse.getFinishHour()+" - Hall "
+                +selectedCourse.getLectureHall()+" - Semester "
+                +selectedCourse.getSemester());
+    }
+
+
 }
