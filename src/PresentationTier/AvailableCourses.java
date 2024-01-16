@@ -44,6 +44,11 @@ public class AvailableCourses extends JFrame{
     private JButton searchButton;
     private JTextField searchCourse;
     private JButton joinButton;
+    private JPanel courseFeedbacks;
+    private JList<String> feedbacksList;
+    private JScrollPane feedbacksPanel;
+    private JLabel feedbacksTitle;
+
     private ArrayList<Course> availableCourses;
     private Student loggedStudent;
     private ProcessData processor  = new UserAuthentication();
@@ -77,6 +82,10 @@ public class AvailableCourses extends JFrame{
         courseLecturer = new JLabel();
         courseHours = new JLabel();
         joinButton = new JButton();
+        courseFeedbacks = new JPanel();
+        feedbacksTitle = new JLabel();
+        feedbacksPanel = new JScrollPane();
+        feedbacksList = new JList<>();
         courseList= new JComboBox<>();
         availableCourses = (ArrayList<Course>) processor.getAvailableCoursesForStudent(loggedStudent);
 
@@ -336,7 +345,7 @@ public class AvailableCourses extends JFrame{
 
         courseFinder.setBackground(new Color(255, 255, 255));
 
-        searchCourse.setText("Search here...");
+        searchCourse.setText("");
         searchCourse.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evt) {
                 searchCourseActionPerformed(evt);
@@ -391,15 +400,14 @@ public class AvailableCourses extends JFrame{
 
         courseDetails.setBackground(new Color(255, 255, 255));
         courseDetails.setAutoscrolls(true);
-        courseDetails.setName("");
 
-        courseName.setFont(new Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        courseName.setFont(new Font("Segoe UI Semibold", 1, 14));
         courseName.setForeground(new Color(93, 131, 148));
 
-        courseLecturer.setFont(new Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        courseLecturer.setFont(new Font("Segoe UI Semibold", 1, 14));
         courseLecturer.setForeground(new Color(93, 131, 148));
 
-        courseHours.setFont(new Font("Segoe UI Semibold", 1, 14)); // NOI18N
+        courseHours.setFont(new Font("Segoe UI Semibold", 1, 14));
         courseHours.setForeground(new Color(93, 131, 148));
 
         joinButton.setBackground(new Color(0, 153, 153));
@@ -443,6 +451,51 @@ public class AvailableCourses extends JFrame{
                                 .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        courseFeedbacks.setBackground(new Color(255, 255, 255));
+
+        feedbacksTitle.setFont(new Font("Segoe UI Semibold", 1, 14));
+        feedbacksTitle.setForeground(new Color(93, 131, 148));
+        feedbacksTitle.setText("Course Feedbacks");
+
+        feedbacksList.setFont(new Font("Segoe UI Semibold", 1, 14));
+        feedbacksList.setForeground(new Color(93, 131, 148));
+
+        //TODO Set feedbacksList Model
+        /*feedbacksList.setModel(new AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });*/
+
+        feedbacksList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        feedbacksList.setToolTipText("");
+        feedbacksList.setSelectionBackground(new Color(0, 102, 102));
+        feedbacksPanel.setViewportView(feedbacksList);
+
+
+        GroupLayout courseFeedbacksLayout = new GroupLayout(courseFeedbacks);
+        courseFeedbacks.setLayout(courseFeedbacksLayout);
+        courseFeedbacksLayout.setHorizontalGroup(
+                courseFeedbacksLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseFeedbacksLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(courseFeedbacksLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGroup(courseFeedbacksLayout.createSequentialGroup()
+                                                .addComponent(feedbacksTitle, GroupLayout.PREFERRED_SIZE, 561, GroupLayout.PREFERRED_SIZE)
+                                                .addGap(0, 0, Short.MAX_VALUE))
+                                        .addComponent(feedbacksPanel))
+                                .addContainerGap())
+        );
+        courseFeedbacksLayout.setVerticalGroup(
+                courseFeedbacksLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addGroup(courseFeedbacksLayout.createSequentialGroup()
+                                .addComponent(feedbacksTitle, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(feedbacksPanel, GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
+                                .addContainerGap())
+        );
+
+
         GroupLayout mainBoardLayout = new GroupLayout(mainBoard);
         mainBoard.setLayout(mainBoardLayout);
         mainBoardLayout.setHorizontalGroup(
@@ -452,7 +505,8 @@ public class AvailableCourses extends JFrame{
                                 .addGroup(mainBoardLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                         .addComponent(courseFinder, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
                                         .addComponent(titleLabel, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(courseDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(courseDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(courseFeedbacks, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(149, Short.MAX_VALUE))
         );
         mainBoardLayout.setVerticalGroup(
@@ -464,7 +518,9 @@ public class AvailableCourses extends JFrame{
                                 .addComponent(courseFinder, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(courseDetails, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(379, Short.MAX_VALUE))
+                                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(courseFeedbacks, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         panel.add(mainBoard);
@@ -541,8 +597,23 @@ public class AvailableCourses extends JFrame{
     }
 
     private void searchButtonActionPerformed(ActionEvent evt) {
-        // TODO add searchCourse code
+        String searchedCourse = searchCourse.getText();
+        boolean found=false;
+        if (searchedCourse != null) {
+            for (Course course : availableCourses) {
+                if (course.getCourseName().equals(searchedCourse)) {
+                    found=true;
+                    updateCourseDetails(course);
+                    break;
+                }
+            }
+            if(found==false){
+                JOptionPane.showMessageDialog(null,"Course not found! Check the course name and try again!","Find Course",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        searchCourse.setText("");
     }
+
 
     private void searchCourseActionPerformed(ActionEvent evt) {
         // TODO add searchCourse code
@@ -562,14 +633,12 @@ public class AvailableCourses extends JFrame{
 
     public void updateCourseDetails(Course selectedCourse){
         courseName.setText(selectedCourse.getCourseName() + "   " + selectedCourse.getRating());
-
         courseLecturer.setText("Lecturer: "+ selectedCourse.getLecturer() + "     Number of Students: " + selectedCourse.getNumberOfStudents());
-
         courseHours.setText("Lecture Time and Hall: "+selectedCourse.getDayOftheWeek()+ " - "
                 +selectedCourse.getStartingHour()+" : "
                 +selectedCourse.getFinishHour()+" - Hall "
                 +selectedCourse.getLectureHall()+" - Semester "
                 +selectedCourse.getSemester());
+        //TODO add code to update feedbacks according to the selected course
     }
-
 }
