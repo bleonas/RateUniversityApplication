@@ -3,6 +3,8 @@ package PresentationTier;
 import Resources.Student;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -31,6 +33,7 @@ public class Home extends JFrame {
     private JLabel profileLogo;
     private JPanel profilePanel;
     private JPanel sideMenu;
+    private JTable jTable1;
     private Student loggedStudent;
     public Home(Student student) {
         panel = new JPanel();
@@ -317,21 +320,31 @@ public class Home extends JFrame {
         jTextArea1.setAutoscrolls(false);
         jTextArea1.setBorder(null);
         jTextArea1.setMargin(new Insets(0, 0, 0, 0));
+        /*
         jScrollPane1.setViewportView(jTextArea1);
 
-        jTextArea2.setEditable(false);
-        jTextArea2.setColumns(20);
-        jTextArea2.setFont(new Font("Segoe UI Semibold", 1, 14)); // NOI18N
-        jTextArea2.setForeground(new Color(93, 131, 148));
-        jTextArea2.setLineWrap(true);
-        jTextArea2.setRows(5);
-        jTextArea2.setText("\nUpcoming Events:\nWelcome Week - Aug 30 to Sep 3\nCareer Fair - Sep 15\nGuest Lecture Series - Oct 5 to Oct 7\"\n\nLatest Announcements:\nNew Scholarship Opportunities\nChanges to Fall Semester Schedule\nCampus Safety Measures Update\n\nAcademic Progress:\nOverall GPA: 3.8\nCurrent Semester: In Progress\n\nNews Feed:\n[University Name] Named Top University in [Category]\nCampus Sustainability Initiatives Recognized\nStudent Achievements: Congratulations to [Student Name]");
-        jTextArea2.setToolTipText("");
-        jTextArea2.setWrapStyleWord(true);
-        jTextArea2.setAutoscrolls(false);
-        jTextArea2.setBorder(null);
-        jTextArea2.setMargin(new Insets(0, 0, 0, 0));
-        jScrollPane2.setViewportView(jTextArea2);
+        jTable1 = new javax.swing.JTable();
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        		
+            new Object [][] {
+                {"8:00 am - 9:00 am", "Inxhinieri Softi", "Ekonomi", "Databaze", "Algoritmike", "Programim Web"},
+                {"9:00 am - 10:00 am", "Databaze", "Algoritmike", "Inxhinieri Softi", "Ekonomi", "Programim Web"},
+                {"10:00 am - 11:00 am", "Ekonomi", "Programim Web", "Databaze", "Inxhinieri Softi", "Algoritmike"},
+               {"11:00 am - 12:00 pm", "Inxhinieri Softi", "Algoritmike", "Ekonomi", "Databaze", "Programim Web"},
+                {"12:00 pm - 1:00 pm", "Programim Web", "Databaze", "Algoritmike", "Ekonomi", "Inxhinieri Softi"}
+            },
+            new String [] {
+            		"Time", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
+            }
+            
+        ));
+        JTableHeader tableHeader = jTable1.getTableHeader();
+        tableHeader.setFont(new Font("SansSerif", Font.BOLD, 12));
+        tableHeader.setBackground(new Color(0, 102, 102));
+        tableHeader.setForeground(new Color(0,0,0));
+        jTable1.setRowHeight(50);
+        jScrollPane2.setViewportView(jTable1);
+        */
 
         GroupLayout homeBoardLayout = new GroupLayout(homeBoard);
         homeBoard.setLayout(homeBoardLayout);
