@@ -84,8 +84,8 @@ public class Reader  implements DataReader {
     }
 
 
-    public ArrayList<Feedback> getFeedbacksForCourse(Course course){
-        String retrieveFeedbacks ="SELECT*FROM feedbacks WHERE course='"+course.getCourseName()+"';";
+    public ArrayList<Feedback> getFeedbacksForCourse(String courseName){
+        String retrieveFeedbacks ="SELECT*FROM feedbacks WHERE course_name='"+courseName+"';";
         ArrayList<Feedback> feedbacksForCourse = new ArrayList<>();
 
         try {
@@ -95,8 +95,8 @@ public class Reader  implements DataReader {
 
             while(resultSet.next()){
                 Feedback feedback = new Feedback();
-                feedback.setCourseName(resultSet.getString("course"));
-                feedback.setDescription(resultSet.getString("course_description"));
+                feedback.setCourseName(resultSet.getString("course_name"));
+                feedback.setDescription(resultSet.getString("feedback_description"));
                 feedback.setRating(resultSet.getDouble("rating"));
 
                 feedbacksForCourse.add(feedback);

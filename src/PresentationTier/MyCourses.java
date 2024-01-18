@@ -51,7 +51,7 @@ public class MyCourses extends JFrame {
     private ArrayList<Course> registeredCourses;
     private Student loggedStudent;
     private ProcessData processor = new UserAuthentication();
-
+    private DefaultListModel<Feedback> feedbackModel;
     public MyCourses(Student student) {
         loggedStudent = student;
         panel = new JPanel();
@@ -545,6 +545,7 @@ public class MyCourses extends JFrame {
     }
 
     private void myCoursePanelMouseClicked(MouseEvent evt) {
+
     }
 
     private void availableCoursesPanelMouseClicked(MouseEvent evt) {
@@ -594,6 +595,13 @@ public class MyCourses extends JFrame {
                     break;
                 }
             }
+            feedbackModel = new DefaultListModel<>();
+            ArrayList<Feedback> feedbacksForCourse = (ArrayList<Feedback>) processor.getFeedbacksForCourse(selectedCourse);
+            for(Feedback feedback:feedbacksForCourse){
+                feedbackModel.addElement(feedback);
+            }
+            feedbacksList.setModel(feedbackModel);
+
         }
     }
 

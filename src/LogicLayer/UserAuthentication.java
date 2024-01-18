@@ -5,6 +5,7 @@ import DataLayer.DataSaver;
 import DataLayer.Reader;
 import DataLayer.Saver;
 import Resources.Course;
+import Resources.Feedback;
 import Resources.Student;
 
 import java.util.ArrayList;
@@ -74,6 +75,9 @@ public class UserAuthentication implements ProcessData {
     public void dropCourse(Student student, Course course){
         student.getCoursesJoined().remove(course);
         saver.dropCourseForStudent(course,student);
+    }
+    public ArrayList<Feedback> getFeedbacksForCourse(String courseName){
+        return (ArrayList<Feedback>) checker.getFeedbacksForCourse(courseName);
     }
 
 

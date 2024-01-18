@@ -7,7 +7,7 @@ import Resources.Student;
 import java.util.List;
 
 public interface DataReader {
-    List<Feedback> getFeedbacksForCourse(Course course);
+    List<Feedback> getFeedbacksForCourse(String courseName);
     List<Course> getAllCourses();
     boolean searchForStudent(Student student);
     Student getStudent(String email);

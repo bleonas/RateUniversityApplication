@@ -4,6 +4,7 @@ package PresentationTier;
 import LogicLayer.ProcessData;
 import LogicLayer.UserAuthentication;
 import Resources.Course;
+import Resources.Feedback;
 import Resources.Student;
 
 import javax.swing.*;
@@ -45,12 +46,13 @@ public class AvailableCourses extends JFrame{
     private JTextField searchCourse;
     private JButton joinButton;
     private JPanel courseFeedbacks;
-    private JList<String> feedbacksList;
+    private JList<Feedback> feedbacksList;
     private JScrollPane feedbacksPanel;
     private JLabel feedbacksTitle;
 
     private ArrayList<Course> availableCourses;
     private Student loggedStudent;
+    private DefaultListModel<Feedback> feedbackModel;
     private ProcessData processor  = new UserAuthentication();
     public AvailableCourses(Student student) {
         loggedStudent = student;
@@ -628,6 +630,12 @@ public class AvailableCourses extends JFrame{
                     break;
                 }
             }
+            feedbackModel = new DefaultListModel<>();
+            ArrayList<Feedback> feedbacksForCourse = (ArrayList<Feedback>) processor.getFeedbacksForCourse(selectedCourse);
+            for(Feedback feedback:feedbacksForCourse){
+                feedbackModel.addElement(feedback);
+            }
+            feedbacksList.setModel(feedbackModel);
         }
     }
 

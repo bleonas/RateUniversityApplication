@@ -31,6 +31,6 @@ public class Feedback {
     }
 
     public String toString(){
-        return courseName+" "+rating+" "+description;
+        return rating+" "+description;
     }
 }
