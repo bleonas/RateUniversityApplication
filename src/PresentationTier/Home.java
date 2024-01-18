@@ -1,12 +1,17 @@
 package PresentationTier;
 
+import LogicLayer.ProcessData;
+import LogicLayer.UserAuthentication;
 import Resources.Student;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.Time;
+import java.util.ArrayList;
 
 public class Home extends JFrame {
     private JLabel availableCoursesLabel;
@@ -33,8 +38,9 @@ public class Home extends JFrame {
     private JLabel profileLogo;
     private JPanel profilePanel;
     private JPanel sideMenu;
-    private JTable jTable1;
+    private JTable timetable;
     private Student loggedStudent;
+    private ProcessData processor;
     public Home(Student student) {
         panel = new JPanel();
         sideMenu = new JPanel();
@@ -61,6 +67,7 @@ public class Home extends JFrame {
         jScrollPane2 = new JScrollPane();
         jTextArea2 = new JTextArea();
         loggedStudent=student;
+        processor = new UserAuthentication();
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
@@ -320,31 +327,17 @@ public class Home extends JFrame {
         jTextArea1.setAutoscrolls(false);
         jTextArea1.setBorder(null);
         jTextArea1.setMargin(new Insets(0, 0, 0, 0));
-        /*
-        jScrollPane1.setViewportView(jTextArea1);
 
-        jTable1 = new javax.swing.JTable();
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-        		
-            new Object [][] {
-                {"8:00 am - 9:00 am", "Inxhinieri Softi", "Ekonomi", "Databaze", "Algoritmike", "Programim Web"},
-                {"9:00 am - 10:00 am", "Databaze", "Algoritmike", "Inxhinieri Softi", "Ekonomi", "Programim Web"},
-                {"10:00 am - 11:00 am", "Ekonomi", "Programim Web", "Databaze", "Inxhinieri Softi", "Algoritmike"},
-               {"11:00 am - 12:00 pm", "Inxhinieri Softi", "Algoritmike", "Ekonomi", "Databaze", "Programim Web"},
-                {"12:00 pm - 1:00 pm", "Programim Web", "Databaze", "Algoritmike", "Ekonomi", "Inxhinieri Softi"}
-            },
-            new String [] {
-            		"Time", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday"
-            }
-            
-        ));
-        JTableHeader tableHeader = jTable1.getTableHeader();
+        jScrollPane1.setViewportView(jTextArea1);
+        String[] daysOfWeek = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
+        timetable = new JTable();
+        timetable.setModel(new DefaultTableModel(processor.getTimetable(),daysOfWeek));
+        JTableHeader tableHeader = timetable.getTableHeader();
         tableHeader.setFont(new Font("SansSerif", Font.BOLD, 12));
         tableHeader.setBackground(new Color(0, 102, 102));
-        tableHeader.setForeground(new Color(0,0,0));
-        jTable1.setRowHeight(50);
-        jScrollPane2.setViewportView(jTable1);
-        */
+        tableHeader.setForeground(new Color(255,255,255));
+        timetable.setRowHeight(60);
+        jScrollPane2.setViewportView(timetable);
 
         GroupLayout homeBoardLayout = new GroupLayout(homeBoard);
         homeBoard.setLayout(homeBoardLayout);

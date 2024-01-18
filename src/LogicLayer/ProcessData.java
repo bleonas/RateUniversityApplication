@@ -4,6 +4,7 @@ import Resources.Course;
 import Resources.Feedback;
 import Resources.Student;
 
+import java.sql.Time;
 import java.util.List;
 
 public interface ProcessData {
@@ -15,4 +16,5 @@ public interface ProcessData {
     void joinCourse(Student student, Course course);
     void dropCourse(Student student, Course course);
     List<Feedback> getFeedbacksForCourse(String courseName);
+    String[][] getTimetable();
 }

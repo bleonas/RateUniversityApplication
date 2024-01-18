@@ -7,7 +7,7 @@ import DataLayer.Saver;
 import Resources.Course;
 import Resources.Feedback;
 import Resources.Student;
-
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -80,5 +80,21 @@ public class UserAuthentication implements ProcessData {
         return (ArrayList<Feedback>) checker.getFeedbacksForCourse(courseName);
     }
 
+    public String[][] getTimetable(){
+        Time[] duration = {new Time(8,0,0),new Time(11,0,0),new Time(14,0,0)};
+        String[] daysOfWeek = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
+        String[][] scheduledCourses = new String[3][5];
+        ArrayList<Course> courses = (ArrayList<Course>) checker.getAllCourses();
+         for(int i=0;i<duration.length;i++){
+             for(int j=0;j<daysOfWeek.length;j++){
+                   for(Course course:courses){
+                      if(course.getStartingHour().equals(duration[i])&&course.getDayOftheWeek().equals(daysOfWeek[j])){
+                          scheduledCourses[i][j] = course.getCourseName();
+                      }
+                  }
+             }
+         }
+           return scheduledCourses;
+    }
 
 }
