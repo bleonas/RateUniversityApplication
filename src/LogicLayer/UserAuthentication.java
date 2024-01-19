@@ -11,6 +11,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class UserAuthentication implements ProcessData {
     DataReader checker = new Reader();
@@ -42,11 +43,22 @@ public class UserAuthentication implements ProcessData {
     }
 
     public void registerStudent(Student student){
+        student.setPassword(passwordHashing(student.getPassword()));
         saver.addStudent(student);
     }
 
     public Student getStudent(String email){
         return checker.getStudent(email);
+    }
+
+    public String passwordHashing(String initialPassword){
+        String hashedPassword= BCrypt.hashpw(initialPassword, BCrypt.gensalt());;
+        return hashedPassword;
+    }
+
+    public boolean passwordMatch(Student student, String enteredPassword) {
+        String storedHashedPassword = checker.getStudent(student.getEmail()).getPassword();
+        return BCrypt.checkpw(enteredPassword, storedHashedPassword);
     }
 
     public ArrayList<Course> getAvailableCoursesForStudent(Student student){

@@ -200,7 +200,7 @@ public class LogIn extends JFrame implements ActionListener {
                 }
                  else{
                         student=processor.getStudent(email);
-                                if(!student.getPassword().equals(new String(password)))
+                                if(!processor.passwordMatch(student, new String(password)))
                                 {
                                     JOptionPane.showMessageDialog(null,"Wrong password!","Log In Status",JOptionPane.ERROR_MESSAGE);
                                 }

@@ -12,6 +12,8 @@ public interface ProcessData {
     boolean isRegistered(Student student);
     void registerStudent(Student student);
     Student getStudent(String email);
+    String passwordHashing(String initialPassword);
+    boolean passwordMatch(Student student, String initialPassword);
     List<Course> getAvailableCoursesForStudent(Student student);
     void joinCourse(Student student, Course course);
     void dropCourse(Student student, Course course);
