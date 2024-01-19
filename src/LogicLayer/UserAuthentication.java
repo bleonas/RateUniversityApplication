@@ -29,13 +29,13 @@ public class UserAuthentication implements ProcessData {
         return  checker.searchForStudent(student);
     }
 
-    private boolean controlEmail(String email){
+    boolean controlEmail(String email){
         Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
         Matcher emailMatcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         return emailMatcher.matches();
     }
 
-    private boolean controlPassword(String password){
+    boolean controlPassword(String password){
         String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
         Pattern passwordPattern = Pattern.compile(passwordRegex);
         Matcher passwordMatcher= passwordPattern.matcher(password);
