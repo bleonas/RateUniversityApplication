@@ -102,7 +102,7 @@ public class Saver implements DataSaver {
 
 
 
-    private void removeOldFeedbacks(){
+    void removeOldFeedbacks(){
 
         TimerTask repeatEvery24Hours = new RemoveOldFeedbacks();
         Timer timer = new Timer();

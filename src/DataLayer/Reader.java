@@ -110,7 +110,7 @@ public class Reader  implements DataReader {
         return feedbacksForCourse;
     }
 
-    private ArrayList<Course> getCoursesForStudent(String email){
+    ArrayList<Course> getCoursesForStudent(String email){
 
         String studentId = "SELECT student_id FROM students WHERE email='"+email+"'";
         String findCourses = "SELECT course_name FROM registrations WHERE student_id=("+studentId+");";
