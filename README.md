@@ -92,14 +92,17 @@ The project follows a three-tier architecture and is organized into five package
    - `ProcessData` (Inner Class):  Manages user authentication, registration, and course access.
      
 3. **PresentationLayer:**
-   - `LogIn`, `SignUp`, `Profile`, `MyCourses1`, `AvailableCourses`, `CourseListRenderer`, `Home`, `LogInAndSignUp`: GUI classes.
+   - `AvailableCourses` , `Home` , `LogIn`, `Main` , `MyCourses` , `Profile` , `SignUp`
 
 4. **Resources:**
    - `Course` : Represents university course with details.
    - `Feedback` : Represents student feedback for a course.
    - `Student`: Represents a university student.
 
-5. **Icon:**
+5. **Test:**
+  - This package includes backend tests for functionality validation.
+    
+6. **Icon:**
   - This package contains the icons used in the project.
 
 ## 4. Product Backlog
@@ -117,12 +120,9 @@ The project follows a three-tier architecture and is organized into five package
 - **Epic 3: Feedback System**
   - User Story 7: As a student, I want to leave feedback for a course.
   - User Story 8: As a student, I want to view feedback for a course.
-  - User Story 9: As a student, I want to edit or delete my feedback.
 
 - **Epic 4: Ratings and Rankings**
-  - User Story 10: As a student, I want to view the top-rated courses.
-  - User Story 11: As a student, I want to see the average rating for each course.
-  - User Story 12: As a student, I want to filter and sort courses based on criteria.
+  - User Story 9: As a student, I want to see the average rating for each course.
 
 ## 5. Sprint Backlogs
 
@@ -132,9 +132,7 @@ The project follows a three-tier architecture and is organized into five package
 1. User Story 1 (5 points): Implement user account creation and login.
 2. User Story 4 (5 points): Implement viewing available courses.
 3. User Story 5 (5 points): Implement joining or dropping a course.
-4. User Story 6 (8 points): Implement leaving feedback for a course.
-5. User Story 7 (5 points): Implement viewing detailed course information.
-6. User Story 9 (2 points): Implement editing or deleting feedback.
+4. User Story 7 (8 points): Implement leaving feedback for a course.
 
 **Sprint Duration:** 3 weeks
 
@@ -142,12 +140,10 @@ The project follows a three-tier architecture and is organized into five package
 
 **User Stories:**
 1. User Story 3 (3 points): Implement editing user profile details.
-2. User Story 8 (5 points): Implement viewing feedback for a course.
-3. User Story 10 (5 points): Implement viewing top-rated courses.
-4. User Story 11 (5 points): Implement viewing average ratings for each course
+2. User Story 6 (5 points): Implement viewing detailed course information.
+3. User Story 8 (5 points): Implement viewing feedback for a course.
+4. User Story 9 (5 points): Implement viewing average ratings for each course
 
-.
-5. User Story 12 (2 points): Implement filtering and sorting courses.
 
 **Sprint Duration:** 3 weeks
 
