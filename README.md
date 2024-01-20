@@ -166,6 +166,7 @@ JUnit tests are implemented to achieve at least 50% code coverage. Test cases co
 
 ## 7. UML Diagram
 
-![umlDiagram](https://github.com/bleonasejdini/RateUniversityApplication/assets/146110609/8b3bceb7-56ac-4f98-b3dd-5c80ac937a1e)
+![image](https://github.com/bleonasejdini/RateUniversityApplication/assets/146110609/8327bdda-9ee1-442a-bbca-e8ce0d00fae4)
+
 
 
